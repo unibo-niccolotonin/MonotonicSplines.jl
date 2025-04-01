@@ -97,8 +97,8 @@ function rqs_params_from_nn(θ_raw::AbstractArray, n_dims_trafo::Integer, B::Rea
 
     compute_unit = get_compute_unit(θ_raw)
 
-    pX =  cat(adapt(compute_unit, repeat([-B], 1, n_dims_trafo, N)), _cumsum_tri(_softmax_tri(θ[1:K,:,:])); dims = 1)
-    pY =  cat(adapt(compute_unit, repeat([-B], 1, n_dims_trafo, N)), _cumsum_tri(_softmax_tri(θ[K+1:2K,:,:])); dims = 1)
+    pX =  cat(adapt(compute_unit, repeat([-B], 1, n_dims_trafo, N)), _cumsum_tri(_softmax_tri(θ[1:K,:,:]), B); dims = 1)
+    pY =  cat(adapt(compute_unit, repeat([-B], 1, n_dims_trafo, N)), _cumsum_tri(_softmax_tri(θ[K+1:2K,:,:]), B); dims = 1)
     dYdX =  cat(adapt(compute_unit, repeat([1], 1, n_dims_trafo, N)), _softplus_tri(θ[2K+1:end,:,:]), adapt(compute_unit, repeat([1], 1, n_dims_trafo, N)); dims = 1)
 
     return pX, pY, dYdX
